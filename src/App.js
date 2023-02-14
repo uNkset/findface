@@ -5,6 +5,7 @@ import 'tachyons';
 import Navigation from './components/Navigation';
 import Logo from './components/Logo';
 import Input from './components/Input';
+import Rank from './components/Rank';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
       <div className="App">
         <Navigation />
         <Logo />
+        <Rank />
         <Input />
         {/*
         <FaceRecognition /> 
