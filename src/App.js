@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'tachyons';
+import ParticlesBg from 'particles-bg';
 
 import Navigation from './components/Navigation';
 import Logo from './components/Logo';
@@ -11,6 +12,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <ParticlesBg className="particles" type="cobweb" bg={true} />
         <Navigation />
         <Logo />
         <Rank />
