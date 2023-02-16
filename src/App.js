@@ -40,8 +40,28 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
+      box: {},
     };
   }
+
+  calcFaceLoc = (data) => {
+    const face_box = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputImage');
+
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    return {
+      left: face_box.left_col * width,
+      top: face_box.top_row * height,
+      right: width - face_box.right_col * width,
+      bottom: height - face_box.bottom_row * height,
+    };
+  };
+
+  displayBox = (box) => {
+    this.setState({ box });
+  };
 
   onInputChange = (e) => {
     e.preventDefault();
@@ -52,9 +72,7 @@ class App extends Component {
     this.setState({ imageUrl: this.state.input });
     app.models
       .predict('f76196b43bbd45c99b4f3cd8e8b40a8a', this.state.input)
-      .then((res) =>
-        console.log(res.outputs[0].data.regions[0].region_info.bounding_box)
-      )
+      .then((res) => this.displayBox(this.calcFaceLoc(res)))
       .catch((err) => console.log(err));
   };
 
@@ -66,7 +84,7 @@ class App extends Component {
         <Logo />
         <Rank />
         <Input onInputChange={this.onInputChange} onSubmit={this.onSubmit} />
-        <FaceRecognition imageUrl={this.state.imageUrl} />
+        <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} />
       </div>
     );
   }
